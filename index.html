@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ATSInsight - free ATS resume builder and analyzer. Runs fully in your browser.">
+<title>ATSInsight — Free ATS Resume Builder &amp; Analyzer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip no-print" href="#main">Skip to content</a>
+
+<header class="nav no-print">
+  <button class="logo" data-page="home" aria-label="ATSInsight home"><span class="logo-mark">A</span>ATSInsight</button>
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  <nav id="navLinks" aria-label="Main">
+    <button data-page="builder">Resume Builder</button>
+    <button data-page="ats">ATS Checker</button>
+    <button data-page="templates">Templates</button>
+    <button data-page="tips">Resume Tips</button>
+    <button data-page="about">About</button>
+  </nav>
+  <div class="nav-actions">
+    <button class="btn ghost sm" id="themeBtn" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+    <button class="btn ghost sm" data-page="ats">Check ATS</button>
+    <button class="btn primary sm" data-page="builder">Create Resume</button>
+  </div>
+</header>
+
+<main id="main">
+<!-- HOME -->
+<section class="page" id="page-home">
+  <div class="hero">
+    <div class="hero-copy">
+      <h1>Build a resume that gets noticed.</h1>
+      <p class="lead">Create professional resumes, analyze ATS compatibility, find missing keywords, and improve your resume — completely free.</p>
+      <p class="tag">Build smarter. Pass ATS. Get noticed.</p>
+      <div class="cta-row">
+        <button class="btn primary lg" data-page="builder">Build My Resume</button>
+        <button class="btn ghost lg" data-page="ats">Check ATS Score</button>
+      </div>
+      <p class="privacy">🔒 Your resume stays in your browser. ATSInsight does not send your resume data to a server.</p>
+    </div>
+    <div class="mock" aria-label="Product preview" id="heroMock">
+      <div class="mock-slide active" data-slide="0">
+        <div class="mock-top"><span>Resume health · Alex Morgan</span><em>Rule-based analysis</em></div>
+        <div class="mock-body">
+          <div class="ring" style="--p:87"><b>87</b><small>/ 100</small></div>
+          <ul class="mock-list">
+            <li><span>Keyword match</span><div class="bar"><i style="width:82%"></i></div><b>82%</b></li>
+            <li><span>Formatting</span><div class="bar"><i style="width:90%"></i></div><b>Good</b></li>
+            <li><span>Readability</span><div class="bar"><i style="width:95%"></i></div><b>Excellent</b></li>
+            <li><span>Sections</span><div class="bar"><i style="width:90%"></i></div><b>9/10</b></li>
+          </ul>
+        </div>
+        <div class="mock-foot"><span class="chip ok">Java</span><span class="chip ok">Git</span><span class="chip ok">SQL</span><span class="chip miss">Docker</span><span class="chip miss">AWS</span></div>
+      </div>
+      <div class="mock-slide" data-slide="1">
+        <div class="mock-top"><span>Keyword analyzer</span><em>Job description match</em></div>
+        <div class="mock-kw">
+          <p class="mock-kw-label">Found in resume</p>
+          <div class="mock-foot"><span class="chip ok">JavaScript</span><span class="chip ok">React</span><span class="chip ok">Git</span><span class="chip ok">REST API</span></div>
+          <p class="mock-kw-label">Missing from resume</p>
+          <div class="mock-foot"><span class="chip miss">Docker</span><span class="chip miss">AWS</span><span class="chip miss">GraphQL</span></div>
+          <p class="hint">Add these only if you genuinely have experience with them.</p>
+        </div>
+      </div>
+      <div class="mock-slide" data-slide="2">
+        <div class="mock-top"><span>Live builder</span><em>4 templates · instant preview</em></div>
+        <div class="mock-tpl">
+          <div class="mock-tpl-card"><span>Classic</span></div>
+          <div class="mock-tpl-card accent"><span>Modern</span></div>
+          <div class="mock-tpl-card"><span>Minimal</span></div>
+          <div class="mock-tpl-card"><span>Professional</span></div>
+        </div>
+        <p class="hint">Switch templates instantly — your content never changes.</p>
+      </div>
+      <div class="mock-dots" role="tablist" aria-label="Preview slides">
+        <button class="on" data-dot="0" aria-label="Slide 1"></button>
+        <button data-dot="1" aria-label="Slide 2"></button>
+        <button data-dot="2" aria-label="Slide 3"></button>
+      </div>
+    </div>
+  </div>
+  <div class="features" id="featureGrid"></div>
+</section>
+
+<!-- BUILDER -->
+<section class="page" id="page-builder">
+  <div class="toolbar no-print">
+    <button class="btn sm" id="saveBtn">Save Resume</button>
+    <button class="btn sm" id="loadBtn">Load Resume</button>
+    <button class="btn sm" id="sampleBtn">Load Sample Resume</button>
+    <button class="btn sm" id="exportBtn">Export JSON</button>
+    <label class="btn sm" for="importFile">Import JSON</label><input type="file" id="importFile" accept=".json,application/json" hidden>
+    <button class="btn sm danger" id="clearBtn">Clear Resume</button>
+    <button class="btn primary sm" id="printBtn">Print / Save as PDF</button>
+  </div>
+  <div class="builder-grid">
+    <aside class="panel editor no-print" id="editor" aria-label="Resume editor"></aside>
+    <div class="preview-col" id="previewCol"><div id="resumeWrap"><article class="resume" id="resume" aria-label="Resume preview"></article></div></div>
+    <aside class="panel tools no-print" aria-label="Design and suggestions">
+      <div class="card">
+        <h3>Live ATS estimate</h3>
+        <div class="live"><div class="ring sm" id="liveRing" style="--p:0"><b id="liveScore">0</b></div><p id="liveNote">Start typing to see your score.</p></div>
+        <button class="btn sm" id="liveToAts">Full analysis →</button>
+      </div>
+      <div class="card"><h3>Suggestions</h3><ul id="suggestions" class="tips-list"></ul></div>
+      <div class="card">
+        <h3>Design</h3>
+        <label>Template <select id="dTemplate"><option value="classic">Classic ATS</option><option value="modern">Modern</option><option value="minimal">Minimal</option><option value="professional">Professional</option></select></label>
+        <label>Font <select id="dFont">
+          <option value="Arial, Helvetica, sans-serif">Arial</option>
+          <option value="Georgia, serif">Georgia</option>
+          <option value="'Times New Roman', Times, serif">Times New Roman</option>
+          <option value="Calibri, 'Segoe UI', sans-serif">Calibri</option>
+          <option value="Verdana, Geneva, sans-serif">Verdana</option>
+          <option value="Tahoma, Geneva, sans-serif">Tahoma</option>
+          <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+          <option value="Cambria, Georgia, serif">Cambria</option>
+          <option value="Garamond, Georgia, serif">Garamond</option>
+          <option value="'Segoe UI', Helvetica, sans-serif">Segoe UI</option>
+          <option value="'Courier New', Courier, monospace">Courier New (monospace)</option>
+          <option value="'Lucida Sans', 'Lucida Grande', sans-serif">Lucida Sans</option>
+        </select></label>
+        <label>Font size <input type="range" id="dSize" min="9" max="13" step="0.5"></label>
+        <label>Line spacing <input type="range" id="dSpacing" min="1.1" max="1.8" step="0.05"></label>
+        <label>Section spacing <input type="range" id="dGap" min="6" max="28" step="1"></label>
+        <label>Page margins <input type="range" id="dMargin" min="8" max="24" step="1"></label>
+        <label>Heading style <select id="dHeading"><option value="upper">Uppercase</option><option value="line">Underlined</option><option value="plain">Plain</option></select></label>
+        <div class="swatches" id="swatches" role="group" aria-label="Accent color"></div>
+        <label class="check" title="Simplifies layout for machine readability"><input type="checkbox" id="dSafe"> ATS Safe Mode</label>
+        <p class="hint">ATS Safe Mode improves machine readability by keeping your resume simple and structured.</p>
+      </div>
+      <div class="card">
+        <h3>Improve bullet point</h3>
+        <label>Your bullet <textarea id="bulletIn" rows="2" placeholder="Made a website using HTML CSS and JavaScript."></textarea></label>
+        <button class="btn sm" id="bulletBtn">Improve Bullet Point</button>
+        <ul id="bulletOut" class="tips-list"></ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ATS CHECKER -->
+<section class="page" id="page-ats">
+  <div class="page-head"><h2>ATS Checker</h2><p>ATSInsight ATS Compatibility Estimate · rule-based analysis, not a real ATS.</p></div>
+  <div class="ats-grid no-print">
+    <div class="card">
+      <h3>Your resume</h3>
+      <label>Paste resume text <textarea id="atsResume" rows="12" placeholder="Copy and paste your resume text here for analysis."></textarea></label>
+      <div class="row">
+        <label class="btn primary sm" for="atsFile">📄 Upload resume (PDF / DOCX / TXT)</label><input type="file" id="atsFile" accept=".txt,.md,.text,.pdf,.doc,.docx" hidden>
+        <button class="btn sm" id="useBuilder">Use my builder resume</button>
+      </div>
+      <p class="hint" id="uploadHint">We'll extract the text automatically. If a file ever fails to read, just paste the text instead — nothing is uploaded to a server either way.</p>
+    </div>
+    <div class="card">
+      <h3>Target job description</h3>
+      <label>Paste job description <textarea id="atsJD" rows="12" placeholder="Paste the job posting here to check keyword match."></textarea></label>
+      <div class="row">
+        <button class="btn primary" id="analyzeBtn">Analyze Resume</button>
+        <button class="btn" id="compareBtn">Compare With Job</button>
+      </div>
+    </div>
+  </div>
+  <div id="loader" class="loader" hidden><span></span>Analyzing your resume…</div>
+  <div id="results" aria-live="polite"><div class="empty">Paste your resume text to see your score, missing keywords and a health report.</div></div>
+</section>
+
+<!-- TEMPLATES -->
+<section class="page" id="page-templates">
+  <div class="page-head"><h2>Templates</h2><p>Four printable layouts. Switch any time — your content stays.</p></div>
+  <div class="tpl-grid" id="tplGrid"></div>
+</section>
+
+<!-- TIPS -->
+<section class="page" id="page-tips">
+  <div class="page-head"><h2>Resume Tips</h2><p>Short, practical advice for ATS-friendly resumes.</p></div>
+  <div class="tips-grid" id="tipsGrid"></div>
+</section>
+
+<!-- ABOUT -->
+<section class="page" id="page-about">
+  <div class="page-head"><h2>About ATSInsight</h2></div>
+  <div class="about">
+    <div class="card"><h3>What it is</h3><p>ATSInsight is a free, frontend-only resume builder and ATS analyzer built with HTML, CSS and vanilla JavaScript.</p></div>
+    <div class="card"><h3>Why ATS compatibility matters</h3><p>Many employers use applicant tracking systems to parse and filter resumes. Clear headings, standard structure and relevant keywords help your resume be read correctly.</p></div>
+    <div class="card"><h3>How scoring works</h3><p>Out of 100: contact 10, sections 15, keyword match 25, formatting 15, content quality 20, readability 15. Every check is a transparent rule in <code>script.js</code>.</p></div>
+    <div class="card"><h3>Privacy</h3><p>Your resume stays in your browser. ATSInsight does not send your resume data to a server. Data is stored only in localStorage on your device.</p></div>
+    <div class="card"><h3>Limitations</h3><p>Rules cannot judge meaning or quality of experience. PDF and DOCX text extraction is not supported offline; paste your text instead.</p></div>
+    <div class="card note"><p><b>Disclaimer:</b> ATSInsight provides an estimated ATS compatibility score based on rule-based checks. Actual ATS systems vary by employer and software.</p></div>
+  </div>
+</section>
+</main>
+
+<footer class="foot no-print">ATSInsight · Runs entirely in your browser · Your resume never leaves your device.</footer>
+<div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+
+<!-- Optional, file-only parsers for the "Upload resume" button.
+     These load from a public CDN so PDF/DOCX text can be extracted client-side.
+     Nothing is uploaded anywhere — parsing happens entirely in the browser.
+     If you are offline or these fail to load, the app still works fully;
+     users can simply paste resume text instead. See README "Known limitations". -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.7.0/mammoth.browser.min.js" defer></script>
+<script src="script.js" defer></script>
+</body>
+</html>
