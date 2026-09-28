@@ -50,7 +50,7 @@ ATSInsight is a portfolio-grade, single-page web app that lets anyone build a pr
 - Keyword extraction and matching against a job description, with matched/missing keyword chips
 - Issue detection (missing sections, weak bullets, no metrics, formatting risks, etc.) with a "why it matters" and "how to fix it" for each
 - Downloadable plain-text resume health report
-- Contextual, rule-based writing suggestions (summary tips, live ATS score in the builder, bullet-point improver)
+- Contextual, rule-based writing suggestions (summary tips, live ATS score in the builder, bullet-point improver)-><-
 - Sample resume loader for instantly seeing the app in action
 - Save / load / clear resume in `localStorage`, plus JSON export / import
 - Dark / light theme toggle, saved across sessions
